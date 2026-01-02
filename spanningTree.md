@@ -63,7 +63,7 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 | Learning   | No            | Yes         | Sends/Receives | Forward Delay (15s) |
 | Forwarding | Yes           | Yes         | Sends/Receives | Permanent           |
 
-## SAPNNING TREE TIMERS 
+## SPANNING TREE TIMERS 
 
 | Timer              | Default Value | Purpose                                                               |
 | ---                | ---           | ---                                                                   |
