@@ -52,6 +52,7 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 
 - `show spanning-tree`
 - `show spanning-tree vlan [VLAN NUMBER] detail`
+- `show spanning-tree interface [INTERFACE NAME] detail`
 
 ## SPANNING TREE PORT STATES 
 
@@ -78,17 +79,43 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 - **Portfast** can be enabled on the ports that are connected to end hosts. 
     - It allows a ports to immediately transition to forwarding state without going through listening and learning.  
     - Should only be done to the ports that are connected to end hosts.
-    - **COMMAND** `spanning-tree portfast`
-    - **COMMAND** `spanning-tree portfast disable` to disable on a specific interface
+
 - **BPDU Guard** if an interface with BPDU guard enabled receives a BPDU, the interface will be shut down to prevent L2 loops. 
-    - **COMMAND** `spanning-tree bpduguard enabled`
-    - **COMMAND** `spanning-tree portfast bpduguard default` to enable guard on all the ports with portfast. 
+    - If a switch is connected to the port will get ErrDisable. 
+
+- **BPDU Filter** is a Spanning Tree Protocol (STP) feature used to suppress the sending and receiving of BPDUs on PortFast-enabled ports. Since these ports connect to end-hosts (like PCs or printers) that do not participate in STP, sending BPDUs to them is unnecessary and wastes bandwidth.
+
+
+| Feature Mode            | Action on Incoming BPDU | Port Status            | Loop Safety |
+| :---------------------- | :---------------------- | :--------------------- | :---------- |
+| BPDU Guard              | Triggers Violation      | err-disable (Shutdown) | Highest     |
+| BPDU Filter (Global)    | Removes Filter          | Normal Forwarding (STP)| Medium      |
+| BPDU Filter (Interface) | Drops/Ignores BPDU      | Stays Up (No STP)      | Lowest      |
+
+### TOOLKIT COMMANDS
+
+| Feature      | Scope     | Command                                     | Resulting Behavior                          |
+| :----------- | :-------- | :------------------------------------------ | :------------------------------------------ |
+| PortFast     | Global    | `spanning-tree portfast default`            | Enables PortFast on all access ports        |
+| PortFast     | Interface | `spanning-tree portfast`                    | Skips Listen/Learn; goes to Forwarding      |
+| BPDU Guard   | Global    | `spanning-tree portfast bpduguard default`  | Guards all ports that have PortFast active  |
+| BPDU Guard   | Interface | spanning-tree bpduguard enable              | Shuts down port (err-disable) if BPDU seen  |
+| BPDU Filter  | Global    | spanning-tree portfast bpdufilter default   | Stops BPDUs; resumes STP if BPDU received   |
+| BPDU Filter  | Interface | spanning-tree bpdufilter enable             | Stops BPDUs and ignores all incoming ones   |
 
 ## STP Configration
 `stp-configuration mode?` option: `mst`, `pvst`, `rapid-pvst`
 `spanning-tree vlan 1 root primary` this decreases the priority value by 4096 less than the priority of the root bridge making it the primary bridge. 
 `spanning-tree vlan 1 root secondary` to configure an auxilary root bridge in case the current root bridge fails. 
 **WE CAN USE THESE COMMANDS FOR LOAD BALANCING BY DOING VLAN SPECIFIC CONFIGURATION FOR ROOT BRIDGE**
+
+## PORTFAST ON TRUNK PORTS 
+
+When it is needed, 
+- A port connected to a virtualization server with VMs in different VLAN's. 
+- A port connected to a router on a stick (ROAS). 
+
+**COMMAND** `spanning-tree portfast trunk`
 
 
 
