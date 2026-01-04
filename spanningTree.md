@@ -67,7 +67,7 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 ## SPANNING TREE TIMERS 
 
 | Timer              | Default Value | Purpose                                                               |
-| ---                | ---           | ---                                                                   |
+| ---                | ---           | :-------------------------------------------------------------------: |
 | Hello              | 2 Seconds     | The interval between Configuration BPDUs sent by the Root Bridge.     |
 | Forward Delay      | 15 Seconds    | The time spent in EACH transition state (Listening and Learning).     |
 | Max Age            | 20 Seconds    | The timeout for a stored BPDU; if not refreshed, the port resets.     |
@@ -99,9 +99,9 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 | PortFast     | Global    | `spanning-tree portfast default`            | Enables PortFast on all access ports        |
 | PortFast     | Interface | `spanning-tree portfast`                    | Skips Listen/Learn; goes to Forwarding      |
 | BPDU Guard   | Global    | `spanning-tree portfast bpduguard default`  | Guards all ports that have PortFast active  |
-| BPDU Guard   | Interface | spanning-tree bpduguard enable              | Shuts down port (err-disable) if BPDU seen  |
-| BPDU Filter  | Global    | spanning-tree portfast bpdufilter default   | Stops BPDUs; resumes STP if BPDU received   |
-| BPDU Filter  | Interface | spanning-tree bpdufilter enable             | Stops BPDUs and ignores all incoming ones   |
+| BPDU Guard   | Interface | `spanning-tree bpduguard enable`            | Shuts down port (err-disable) if BPDU seen  |
+| BPDU Filter  | Global    | `spanning-tree portfast bpdufilter default` | Stops BPDUs; resumes STP if BPDU received   |
+| BPDU Filter  | Interface | `spanning-tree bpdufilter enable`           | Stops BPDUs and ignores all incoming ones   |
 
 ## STP Configration
 `stp-configuration mode?` option: `mst`, `pvst`, `rapid-pvst`
