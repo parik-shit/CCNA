@@ -85,6 +85,11 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 
 - **BPDU Filter** is a Spanning Tree Protocol (STP) feature used to suppress the sending and receiving of BPDUs on PortFast-enabled ports. Since these ports connect to end-hosts (like PCs or printers) that do not participate in STP, sending BPDUs to them is unnecessary and wastes bandwidth.
 
+- **Root Guard** enabled ports will enter ***broken*** (Root inconsistent) state, effectively disabling it if a superior BPDU is a received from a switch outside the network. 
+
+- **Loop Guard** enabled ports protect the network from loops by disabling the port if it unexpectedly stops receiving BPDUs, ensuring it doesn't mistakenly enter the forwarding state. It does this by going into ***broker*** Loop inconsistent state. 
+    - Loop guard should be enabled on non-designated ports (ports that are supposed to receive BPDUs)
+    - Goal is to prevent a ND port from becoming DP. 
 
 | Feature Mode            | Action on Incoming BPDU | Port Status            | Loop Safety |
 | :---------------------- | :---------------------- | :--------------------- | :---------- |
@@ -94,14 +99,18 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 
 ### TOOLKIT COMMANDS
 
-| Feature      | Scope     | Command                                     | Resulting Behavior                          |
-| :----------- | :-------- | :------------------------------------------ | :------------------------------------------ |
-| PortFast     | Global    | `spanning-tree portfast default`            | Enables PortFast on all access ports        |
-| PortFast     | Interface | `spanning-tree portfast`                    | Skips Listen/Learn; goes to Forwarding      |
-| BPDU Guard   | Global    | `spanning-tree portfast bpduguard default`  | Guards all ports that have PortFast active  |
-| BPDU Guard   | Interface | `spanning-tree bpduguard enable`            | Shuts down port (err-disable) if BPDU seen  |
-| BPDU Filter  | Global    | `spanning-tree portfast bpdufilter default` | Stops BPDUs; resumes STP if BPDU received   |
-| BPDU Filter  | Interface | `spanning-tree bpdufilter enable`           | Stops BPDUs and ignores all incoming ones   |
+| Feature      | Scope     | Command                                     | Resulting Behavior                            |
+| :----------- | :-------- | :------------------------------------------ | :------------------------------------------   |
+| PortFast     | Global    | `spanning-tree portfast default`            | Enables PortFast on all access ports          |
+| PortFast     | Interface | `spanning-tree portfast`                    | Skips Listen/Learn; goes to Forwarding        |
+| BPDU Guard   | Global    | `spanning-tree portfast bpduguard default`  | Guards all ports that have PortFast active    |
+| BPDU Guard   | Interface | `spanning-tree bpduguard enable`            | Shuts down port (err-disable) if BPDU seen    |
+| BPDU Filter  | Global    | `spanning-tree portfast bpdufilter default` | Stops BPDUs; resumes STP if BPDU received     |
+| BPDU Filter  | Interface | `spanning-tree bpdufilter enable`           | Stops BPDUs and ignores all incoming ones     |
+| Root Guard   | Interface | `spanning-tree guard root`                  | if superior BPDU is seen the port is disabled |
+| Root Guard   | Global    | **DOESNT EXIST**                            | -                                             |
+| Loop Guard   | Interface | `spanning-tree guard loop`                  | if superior BPDU is seen the port is disabled |
+| Loop Guard   | Global    | `spanning-tree loopguard  default`          | if superior BPDU is seen the port is disabled |
 
 ## STP Configration
 `stp-configuration mode?` option: `mst`, `pvst`, `rapid-pvst`
