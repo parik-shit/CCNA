@@ -11,12 +11,14 @@
 ## WORKING OF STP
 
 1. **BPDU Exchange:** - Switches send Hello BPDUs every **2 seconds** by default.
-   - If a BPDU is received, the switch knows another switch is on that link.
+    - If a BPDU is received, the switch knows another switch is on that link.
 2. **Root Bridge Election:** - The switch with the **Lowest Bridge ID (BID)** is elected.
-   - BID = Priority + MAC Address.
+    - BID = Priority + MAC Address.
 3. **Designated Ports (DP):** - All ports on the Root Bridge are Designated Ports (Forwarding).
+    - Purpose is the forward BPDUs that are received from RP. 
 4. **Root Ports (RP):** - Every non-root switch selects **ONE** Root Port.
-   - Selection is based on the **Lowest Root Path Cost**.
+    - Selection is based on the **Lowest Root Path Cost**.
+    - Purpose is to receive superior BPDUs 
 
 ### STP Port Costs (Reference)
 * 10 Mbps: 100
@@ -86,10 +88,14 @@ If path costs are equal, the following tie-breakers are used to elect ports:
 - **BPDU Filter** is a Spanning Tree Protocol (STP) feature used to suppress the sending and receiving of BPDUs on PortFast-enabled ports. Since these ports connect to end-hosts (like PCs or printers) that do not participate in STP, sending BPDUs to them is unnecessary and wastes bandwidth.
 
 - **Root Guard** enabled ports will enter ***broken*** (Root inconsistent) state, effectively disabling it if a superior BPDU is a received from a switch outside the network. 
+    - Goal is to prevent DP from becoming RP. 
 
 - **Loop Guard** enabled ports protect the network from loops by disabling the port if it unexpectedly stops receiving BPDUs, ensuring it doesn't mistakenly enter the forwarding state. It does this by going into ***broker*** Loop inconsistent state. 
     - Loop guard should be enabled on non-designated ports (ports that are supposed to receive BPDUs)
-    - Goal is to prevent a ND port from becoming DP. 
+    - A hardware issue causing a unidirectional link.
+    - Goal is to prevent a ND or Root port from becoming DP. 
+
+***ROOT GUARD and LOOP guard are mutually exclusibe*** a port can have either one of them 
 
 | Feature Mode            | Action on Incoming BPDU | Port Status            | Loop Safety |
 | :---------------------- | :---------------------- | :--------------------- | :---------- |
