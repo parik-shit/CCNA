@@ -4,12 +4,12 @@ EtherChannel groups multiple interfaces to work as a single interface.
 
 - STP treats this group as a single interface.
 - Some other names of etherChannel are:
-  1. Port Channel
-  2. LAG (Link Aggregation Group)
+    1. Port Channel
+    2. LAG (Link Aggregation Group)
 
 ### Problem Ether Channels solve:
 
-- _Oversubscription_: When the bandwidth of the interfaces connected to endhosts is greater than the bandwidth of the connection to the distribution switches,this is called **_oversubscription_**.
+- Oversubscription: When the bandwidth of the interfaces connected to endhosts is greater than the bandwidth of the connection to the distribution switches,this is called **oversubscription**.
 
 ### How EtherChannel Load Balances:
 
@@ -22,12 +22,12 @@ EtherChannel groups multiple interfaces to work as a single interface.
 
 - We can change the inputs used for interface selection.
 - Inputs that can be used:
-  1. **Source MAC**
-  2. **Destination MAC**
-  3. **Source and Destination MAC**
-  4. **Source IP**
-  5. **Destination IP**
-  6. **Source and Destination IP**
+    1. **Source MAC**
+    2. **Destination MAC**
+    3. **Source and Destination MAC**
+    4. **Source IP**
+    5. **Destination IP**
+    6. **Source and Destination IP**
 
 ### COMMANDS:
 
@@ -36,9 +36,9 @@ EtherChannel groups multiple interfaces to work as a single interface.
 
 ### Type of configuration:
 
-1. **PAGP** (cisco's proprietary)
-2. **LACP** (IEEE)
-3. **Static EtherChannel**
+  1. **PAGP** (cisco's proprietary)
+  2. **LACP** (IEEE)
+  3. **Static EtherChannel**
 
 #### Configuration
 
@@ -50,22 +50,22 @@ EtherChannel groups multiple interfaces to work as a single interface.
 - **STEP 2** SELECT configuration mode
   COMMAND: `channel-group [NUMBER] mode [MODE]`
   OPTIONS:
-  1. active [LACP]
-  2. auto [PAGP]
-  3. desirable [PAGP]
-  4. on [EtherChannel only]
-  5. passive [LACP]
+    1. active [LACP]
+    2. auto [PAGP]
+    3. desirable [PAGP]
+    4. on [EtherChannel only]
+    5. passive [LACP]
 
   Rule of thumb:
-  - auto + auto = no EtherChannel
-  - desirable + auto = EtherChannel
-  - desirable + desirable = EtherChannel
+    - auto + auto = no EtherChannel
+    - desirable + auto = EtherChannel
+    - desirable + desirable = EtherChannel
 
-  - passive + passive = no EtherChannel
-  - active + passive = EtherChannel
-  - active + active = EtherChannel
+    - passive + passive = no EtherChannel
+    - active + passive = EtherChannel
+    - active + active = EtherChannel
 
-  - on + on = EtherChannel (static EtherChannel needs both interface mode 'on') 
+    - on + on = EtherChannel (static EtherChannel needs both interface mode 'on') 
 
   **BONUS**: We can check the channel that we created in interface brief.
 
@@ -77,3 +77,22 @@ EtherChannel groups multiple interfaces to work as a single interface.
 - **STEP 2** give an IP to the port channel 
   - `int [CHANNEL]`
   - `ip address [IP] [SUBNET MASK]`
+
+### Rule of a port-channel
+
+All bundled interfaces must match: 
+
+  1. Speed
+  2. Duplex
+  3. VLANs
+  4. Trunking Mode
+  5. Native VLAN 
+  6. Allowed VLAN list 
+
+
+## **Memory Shortcut**
+
+`channel-group [GROUP] mode [MODE]`
+`port-channel load-balance ?`
+`show etherchannel summary`
+`show etherchannel port-channel [GROUP]`
