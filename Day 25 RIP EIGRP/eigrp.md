@@ -7,7 +7,17 @@
 - Does not have 15 hop count limit like RIP.
 - Sends messages using multicast address 224.0.0.10
 - It is the only IGP that can perform _unequal_-load balancing (by default, it performs ECMP load balancing like RIP)
-- METRIC = Bandwidth + Delay 
+- METRIC = Bandwidth + Delay (where, bandiwidth = bandwidth of the slowest link, delay = total delay of of all links) 
+
+### EIGRP Terminology  [YT](https://youtu.be/ffnJ5oBIObY?si=xz-XQ3D4wfvyhZfB&t=923)
+
+- Feasible Distance: It is the shortest metric to a destination route 
+
+- Reported Distance: Metric of neighbor router to the destination route 
+
+- Feasible Successor: Alternative route that to the destination (not the best route) which meats the feasibility condition
+    - Feasibilty Condtion: A route is considered a **feasible successor** if its **reported distance** is lower than the successor route's **feasible distance**. 
+
 ### Configuration: (EXAMPLE)
 
 ```
@@ -139,4 +149,13 @@ Others = 0
 
 If K values don’t match → neighbors will NOT form.
 
+## EIGRP Unequal Cost Load Balancing: 
 
+Before we learn about unequal load balancing, let's learn about variance and variance command 
+
+```
+R1 (config-router) #variance ?
+<1-128> Metric variance Multiplier
+R1 (config-router) #variance 2
+```
+variance 2 = feasible successor routes with an FD upto 2x the successor rout'es FD can be used to load balance. 
