@@ -54,20 +54,3 @@ after this we need to clear the process.
 we can also change the maximum number of paths using,
 `maximum-paths [NUMBER of PATHS]`
 
-### OSPF Cost 
-
-- OSPF's metric is called cost. 
-- The OSPF cost to a destination is the total cost of teh 'outgoing/exit interfaces'
-- It is automatically calculated based on the bandwidth (speed) of the interface. 
-- It is calculated by dividing a reference bandwidth value (100 Mbps by default) by the bandwidth of the interface.
-- For example, an interface with a bandwidth of 100 Mbps would have a cost:
- Reference: 100 mbps / Interface: 10 mbps = Cost: 10
- Reference: 100 mbps / Interface: 100  mbps = Cost: 1
- Reference: 100 mbps / Interface: 1000  mbps = Cost: 1
- Reference: 100 mbps / Interface: 10000  mbps = Cost: 1
-
-All the values less than 1 will be rounded to 1. 
-
-**Configure OSPF Cost:**
-- The cost of an interface can be manually configured using the following command:
-`auto-cost reference-bandwidth [BANDWIDTH IN MBPS]`

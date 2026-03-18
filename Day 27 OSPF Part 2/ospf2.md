@@ -44,7 +44,7 @@ NOTE: When we talk about states, we are talking about the state of the relations
 
 - When a potential neighboring router receives a Hello packet. it will add an entry for that router to its OSPF neighbor table.
 - For this neighbor router's neighbor table, the relationship with the router is in the **Init state**.
-- **INIT STATE** = Hello packet received, but own router ID is not in the HELLO packet.
+- **INIT STATE** = Hello packet received, but *own* router ID is not in the HELLO packet.
 
 3. **2-Way-State**:
    NOTE: At this point the two routers are already neighors.
