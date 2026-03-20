@@ -27,13 +27,13 @@ NOTE: The first 3 quartets represent "Global Routing Prefix"
 ### Global Unicast address: 
 - Global unicast ipv6 addresses are public addresses which can be used over the internet. 
 - Must register to use them. Because they are public addresses, it is expected that they are globally unique. 
-- Originally defined as the 2000::/3 block (2000:: to 3fff:ffff:ffff:ffff:ffff:ffff:ffff:ffff)
+- Originally defined as the **2000::/3** block (2000:: to 3fff:ffff:ffff:ffff:ffff:ffff:ffff:ffff)
 - First 3 Bits are fixed. 
 
 ### Unique Local Addresses: 
 - Unique local IPv6 addresses are private addresses which cannot be used over the interenet. 
 - You do not need to register to use them. They can be used freely within internal networks and don't need to be globally unique. Can't be router over the internet.
-- First 7 bits are fixed. Uses the address bloack FC00::/7 (FC00:: FDFF:FFFF:FFFF:FFFF:FFFF:FFFF) (For some reason 8th bit is also set but don't ask why)
+- First 7 bits are fixed. Uses the address bloack *FC00::/7* (FC00:: FDFF:FFFF:FFFF:FFFF:FFFF:FFFF) (For some reason 8th bit is also set but don't ask why)
 
 ### Link Local Addresses: 
 - Link-local IPv6 addresses are automatically generated on IPv6-enabled interfaces. 
@@ -43,20 +43,24 @@ NOTE: The first 3 quartets represent "Global Routing Prefix"
   - routing protocol peerings (OSPFv3 uses link-local addresses for neighbor adjacencies)
   - Next-hop addresses for static routes. 
   - Neighbor Discovery Protocol (NDP, Ipv6's replacemenet for ARP) uses link-local addresses to function. 
-- First 10 Bits are fixed. Uses the address block FE80::/10 (FE80:: to FEBF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF) (For some reason 11th bit is also set but don't ask why)
+- First 10 Bits are fixed. Uses the address block *FE80::/10* (FE80:: to FEBF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF) (For some reason 11th bit is also set but don't ask why)
 
 ### Multicast Addreses: 
 - One-to-Many addresse (only for the hosts that have joined the multicast group)
+- Rerserve the address block *FF00::/8* for multicast addresses.
 - IPv6 multicast address start from FFF02::[]  (similar to IPv4 where the pattern for the first 4 bits is 1110 )
+- IPv6 doesn't use broadcast addresses. Instead, it uses multicast addresses to achieve the same functionality.
+  - FF02::1 is the all-nodes multicast address (equivalent to IPv4's broadcast address). All IPv6-enabled devices must join this multicast group.
+  - FF02::2 is the all-routers multicast address. All IPv6-enabled routers must join this multicast group.
 
 #### IPv6 multicast scopes: 
 - IPv6 defines multiple multicast 'scopes' which indicate how far the packet should be forwarded. 
 - The addresses in the previous slide all use the 'link-local' scope (FF02), which stays in the local subnet. 
-- Interface-local (FF01): Packet stays within the device (used by netorking stack to communicate with application)
-- Link-local (FF02)
-- Site-Local (FF05): The packet can be forwarded by routers. Should be limited to a single physical location (not forwarded over a WAN)
-- Organization-local (FF08): Wider in scope than site-local (an entire company/organization). 
-- Global (FF0E): No boundaries. Possible to be routed over the internet. 
+- *Interface-local* (FF01): Packet stays within the device (used by netorking stack to communicate with application)
+- **Link-local (FF02)**
+- *Site-Local* (FF05): The packet can be forwarded by routers. Should be limited to a single physical location (not forwarded over a WAN)
+- *Organization-local* (FF08): Wider in scope than site-local (an entire company/organization). 
+- *Global* (FF0E): No boundaries. Possible to be routed over the internet. 
 
 ### Anycast addresses: (Multiple possible destination but traffice is sent to one)
 - A new feature of IPv6 
