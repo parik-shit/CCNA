@@ -79,4 +79,4 @@ COMMAND: `ipv6 route destination/prefix-length {next-hop-address | exit-interfac
 - Type of routes:
   1. Network route
   2. Host route: \OO/ cant think of one
-  3. Default route: `ipv6 route ::/0 {next-hop-address | exit-interface [next-hope]} [administrative-distance]`
+  3. Default route: `ipv6 route ::/0 {next-hop-address | exit-interface [next-hop]} [administrative-distance]`
